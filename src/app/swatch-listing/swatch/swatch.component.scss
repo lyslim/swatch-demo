@@ -1,0 +1,134 @@
+
+@mixin clickable {
+	cursor: pointer;
+	user-select: none;
+}
+
+:host {
+
+	@include clickable;
+	font-size: 16px;
+	line-height: 1.13;
+	font-weight: normal;
+
+	.swatch {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-width: 34px;
+		min-height: 34px;
+		width: auto;
+		height: auto;
+	}
+
+	&.IMG {
+		height: 100%;
+		width: 100%;
+		background-repeat: no-repeat;
+	}
+
+
+	&.IMG, &.CODE {
+		margin: 0 13px;
+		box-sizing: border-box;
+
+		.swatch__container {
+			border-radius: 50%;
+			border: 1px solid transparent;
+			overflow: hidden;
+		}
+
+		&:hover {
+			.swatch__container {
+				border-color: lighten(#000000, 70%);
+			}
+		}
+
+		.swatch {
+			border-radius: 50%;
+			border: 2px solid #e0e0e0;
+			box-sizing: border-box;
+			overflow: hidden;
+			height: 34px;
+			width: 34px;
+			flex-direction: column;
+			position: relative;
+
+			&-code {
+				height: 100%;
+				width: 100%;
+			}
+		}
+	}
+
+	&.IMG.selected, &.CODE.selected {
+		.swatch__container {
+			border-color: #000000;
+		}
+	}
+
+	&.TEXT {
+		.swatch {
+			margin: 0 7.5px 8px 7.5px;
+			border-radius: 2px;
+			border: 1px solid #efefef;
+			white-space: nowrap;
+
+			&__text {
+				padding: 0 5px;
+				white-space: nowrap;
+			}
+
+			&:hover {
+				border-color: lighten(#000000, 70%);
+			}
+		}
+	}
+
+	&.TEXT.selected {
+		.swatch {
+			border-color: #000000;
+		}
+	}
+
+	&.inactive {
+		pointer-events: none;
+
+		.skew-line {
+			width: 2px;
+			height: 100%;
+			background: #e0e0e0;
+			transform: rotate(45deg);
+			position: absolute;
+		}
+
+		.swatch {
+			color: #757575;
+			background-color: #efefef;
+		}
+	}
+
+	&.overlay-styling {
+
+		&.TEXT {
+			.swatch {
+				background-color: #efefef;
+				white-space: nowrap;
+			}
+		}
+
+		&.TEXT.selected {
+			.swatch {
+				border-color: #000000;
+			}
+		}
+
+		&.inactive {
+			.swatch {
+				color: #757575;
+				background-color: #e0e0e0;
+			}
+		}
+	}
+
+}

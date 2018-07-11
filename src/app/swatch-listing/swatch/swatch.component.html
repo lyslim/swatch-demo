@@ -1,0 +1,12 @@
+<div class="swatch__container" [ngSwitch]="type" (click)="onClicked($event)">
+	<caas-generic-image *ngSwitchCase="'IMG'" [imgSrc]="swatch.url" class="swatch"></caas-generic-image>
+	<div class="img" [ngStyle]="backgroundImageProps"><div *ngIf="!loading && !placeholderExists" class="no-placeholder"></div></div>
+	<div *ngSwitchCase="'CODE'" class="swatch">
+		<div class="swatch-code" *ngFor="let code of swatch.codes | slice:0:3" [style.backgroundColor]="code"></div>
+		<div class="skew-line"></div>
+	</div>
+
+	<div *ngSwitchCase="'TEXT'" class="swatch">
+		<span class="swatch__text">{{swatch.label}}</span>
+	</div>
+</div>
