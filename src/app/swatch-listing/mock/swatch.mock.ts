@@ -21,7 +21,7 @@ export const swatchGreen = new Swatch({
 
 export const swatchGray = new Swatch({label: 'Gray', codes: ['#c1c4c0'], isActive: true, isSelected: true});
 
-export const swatchBlack = new Swatch({label: 'Black', codes: ['#2c2d2c'], isActive: true});
+export const swatchBlack = new Swatch({label: 'Black', codes: ['#2c2d2c'], isActive: false});
 
 export const colorList = [swatchRed, swatchBlue, swatchYellow, swatchGreen, swatchGray, swatchBlack];
 

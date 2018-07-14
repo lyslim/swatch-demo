@@ -2,10 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { SwatchComponent, SwatchListingComponent } from './swatch-listing/';
 
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
+		SwatchComponent,
+		SwatchListingComponent,
 	],
 	imports: [
 		BrowserModule

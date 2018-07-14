@@ -1,0 +1,10 @@
+.swatch-demo {
+	max-width: 1200px;
+	display: flex;
+	justify-content: space-around;
+	margin-top: 100px;
+}
+
+.swatch-list {
+	width: 350px;
+}

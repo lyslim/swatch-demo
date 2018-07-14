@@ -41,6 +41,8 @@ export class SwatchComponent implements OnInit {
 
 	@Output() out = new EventEmitter<SelectionEvent>();
 
+	backgroundImageProps = {};
+
 	private isSelected: boolean;
 	private id: string;
 
@@ -78,6 +80,7 @@ export class SwatchComponent implements OnInit {
 	ngOnInit(): void {
 		if (this.swatch.url && !this.showLabelOnly) {
 			this.type = SwatchType.IMG;
+			this.setBackgroundImageProps();
 		} else if (this.swatch.codes && this.swatch.codes.length && !this.showLabelOnly) {
 			this.type = SwatchType.CODE;
 		} else {
@@ -88,4 +91,11 @@ export class SwatchComponent implements OnInit {
 	onClicked(event: MouseEvent): void {
 		this.selected = !this.selected;
 	}
+
+	private setBackgroundImageProps(): void {
+		this.backgroundImageProps['background-image'] = `url('${this.swatch.url}')`;
+		this.backgroundImageProps['background-size'] = '100% 100%';
+		this.backgroundImageProps['background-position'] = 'center center';
+	}
+
 }

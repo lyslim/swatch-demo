@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { lengthList, colorList, sizeList } from './swatch-listing/mock/swatch.mock';
 
 @Component({
 	selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 	title = 'app';
+
+	list1 = colorList;
+	list2 = lengthList;
+	list3 = sizeList;
 }
