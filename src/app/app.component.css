@@ -8,3 +8,12 @@
 .swatch-list {
 	width: 350px;
 }
+
+.variant-selector {
+	margin-top: 20px;
+	display: flex;
+}
+
+h2 {
+	margin-right: 20px;
+}

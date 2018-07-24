@@ -1,0 +1,9 @@
+<div class="variant-attribute-selectors">
+	<div *ngFor="let selector of variantAttributeSelectors" class="variant-attribute-selector">
+		<div class="swatch-label">{{selector.key | titlecase}}:
+			<span>{{selector.selectedValue}}</span>
+		</div>
+		<caas-swatch-listing [swatchList]="selector.swatches" (out)="onSwatchClicked($event, selector.key)">
+		</caas-swatch-listing>
+	</div>
+</div>
