@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { Swatch, SwatchListingEvent, SelectionEventType } from '../swatch-listing';
 import { VariantAttribute, VariantAttributeSelector } from './variant-selector.model';
-import { products } from '../product/products.mock';
+import { products, product001 } from '../product/products.mock';
 
 /**
  *  This component servies the following purposes:
@@ -28,6 +28,10 @@ export class VariantSelectorComponent implements OnInit {
 
 	variantAttributeSelectors: Array<VariantAttributeSelector> = [];
 
+	isEdit = false;
+
+	buttonText: string =  this.isEdit ? 'Save' : 'Edit';
+
 	constructor(private changeDetectorRef: ChangeDetectorRef) { }
 
 	ngOnInit() {
@@ -37,7 +41,8 @@ export class VariantSelectorComponent implements OnInit {
 		this.assembleAvailableVariants(productVariants);
 
 		// get variant attribute selectors(several lists of variant attributes)
-		this.assembleVASelectors(productVariants);
+		// this.assembleVASelectors(productVariants);
+		this.initVASelectors();
 	}
 
 	onSwatchClicked(selectionEvent: SwatchListingEvent, selectedAttributeKey: string): void {
@@ -69,8 +74,51 @@ export class VariantSelectorComponent implements OnInit {
 		// }
 	}
 
+	toggleMode(): void {
+		
+		this.isEdit = !this.isEdit;
+		
+		if (this.isEdit) {
+			this.assembleVASelectors(this.getProductVariants());
+		} else {
+			this.initVASelectors();
+		}
+		
+	}
+
 	private getProductVariants() {
 		return products;
+	}
+
+	private initVASelectors() {
+		// color burnt greens waist 29 length 30
+
+		const initColorSelector = {
+			key: 'color',
+			selectedValue: 'burnt greens',
+			swatches: [
+				new Swatch({label: 'burnt green', isActive: true, isSelected: true}),
+			]
+		}
+
+		const initWaistSelector = {
+			key: 'waist',
+			selectedValue: '29',
+			swatches: [
+				new Swatch({label: '29', isActive: true, isSelected: true}),
+			]
+		}
+
+		const initLengthSelector = {
+			key: 'length',
+			selectedValue: '30',
+			swatches: [
+				new Swatch({label: '30', isActive: true, isSelected: true}),
+			]
+		}
+
+		this.variantAttributeSelectors = [initColorSelector, initWaistSelector, initLengthSelector];
+
 	}
 
 	private assembleAvailableVariants(products): void {

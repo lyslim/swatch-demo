@@ -1,3 +1,6 @@
+<div>
+    <button (click)="toggleMode()">{{buttonText}}</button>
+</div>
 <div class="variant-attribute-selectors">
 	<div *ngFor="let selector of variantAttributeSelectors" class="variant-attribute-selector">
 		<div class="swatch-label">{{selector.key | titlecase}}:
