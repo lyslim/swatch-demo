@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { Swatch, SwatchListingEvent, SelectionEventType } from '../swatch-listing';
 import { VariantAttribute, VariantAttributeSelector } from './variant-selector.model';
-import { products, product001 } from '../product/products.mock';
+import { products, product001, product002 } from '../product/products.mock';
 
 /**
  *  This component servies the following purposes:
@@ -24,13 +24,17 @@ import { products, product001 } from '../product/products.mock';
 })
 export class VariantSelectorComponent implements OnInit {
 
-	availableVariants;
-
 	variantAttributeSelectors: Array<VariantAttributeSelector> = [];
+
+	defaultProduct = product001;
 
 	isEdit = false;
 
-	buttonText: string =  this.isEdit ? 'Save' : 'Edit';
+	isError: boolean;
+
+	buttonText = 'Edit';
+
+	private availableVariants;
 
 	constructor(private changeDetectorRef: ChangeDetectorRef) { }
 
@@ -40,18 +44,16 @@ export class VariantSelectorComponent implements OnInit {
 		// get available product variants
 		this.assembleAvailableVariants(productVariants);
 
-		// get variant attribute selectors(several lists of variant attributes)
-		// this.assembleVASelectors(productVariants);
-		this.initVASelectors();
+		// set initial variant attribute selector
+		this.setVASelector(this.defaultProduct);
 	}
 
 	onSwatchClicked(selectionEvent: SwatchListingEvent, selectedAttributeKey: string): void {
-
 		const selectedAttribute = this.variantAttributeSelectors.find(attribute => attribute.key === selectedAttributeKey);
 		selectedAttribute.selectedValue = selectionEvent.type === SelectionEventType.SELECTED ? selectionEvent.swatch.label : '';
 		this.changeDetectorRef.detectChanges();
 
-		// if (this.isEdit) {
+		if (this.isEdit) {
 			const selectedAttributes =
 				this.variantAttributeSelectors.filter(attribute => attribute.selectedValue)
 					.map(attribute => ({ key: attribute.key, value: attribute.selectedValue }));
@@ -71,54 +73,46 @@ export class VariantSelectorComponent implements OnInit {
 					swatch.isActive = this.isVariantAvailable(checkAttributes);
 				});
 			});
-		// }
+		}
 	}
 
-	toggleMode(): void {
-		
+	onButtonClicked(): void {
+
 		this.isEdit = !this.isEdit;
-		
+
 		if (this.isEdit) {
-			this.assembleVASelectors(this.getProductVariants());
+			this.setVASelectors(this.getProductVariants());
+			this.buttonText = 'Save';
 		} else {
-			this.initVASelectors();
+			if (this.variantAttributeSelectors.every(selector => !!selector.selectedValue)) {
+				const selectedProductVA = this.variantAttributeSelectors.map(selector => ({key: selector.key, value: selector.selectedValue}));
+				const productId = this.getAvailableProductId(selectedProductVA);
+				const selectedProduct = products.find(product => product.id === productId);
+				this.setVASelector(selectedProduct);
+				this.buttonText = 'Edit';
+			} else {
+				this.isError = true;
+				this.isEdit = true;
+				return;
+			}
 		}
-		
+		this.isError = false;
+
 	}
 
 	private getProductVariants() {
 		return products;
 	}
 
-	private initVASelectors() {
+	private setVASelector(product) {
 		// color burnt greens waist 29 length 30
+		this.variantAttributeSelectors.length = 0;
 
-		const initColorSelector = {
-			key: 'color',
-			selectedValue: 'burnt greens',
-			swatches: [
-				new Swatch({label: 'burnt green', isActive: true, isSelected: true}),
-			]
-		}
-
-		const initWaistSelector = {
-			key: 'waist',
-			selectedValue: '29',
-			swatches: [
-				new Swatch({label: '29', isActive: true, isSelected: true}),
-			]
-		}
-
-		const initLengthSelector = {
-			key: 'length',
-			selectedValue: '30',
-			swatches: [
-				new Swatch({label: '30', isActive: true, isSelected: true}),
-			]
-		}
-
-		this.variantAttributeSelectors = [initColorSelector, initWaistSelector, initLengthSelector];
-
+		const wrapVariantAttribute = (variantAttribute) => {
+			const defaultSwatch = this.wrappedAttributeIntoSwatch(variantAttribute, true, true);
+			return {key: variantAttribute.key, swatches: [defaultSwatch]};
+		};
+		this.variantAttributeSelectors = product.variantAttributes.map(wrapVariantAttribute);
 	}
 
 	private assembleAvailableVariants(products): void {
@@ -135,14 +129,15 @@ export class VariantSelectorComponent implements OnInit {
 		});
 	}
 
-	private assembleVASelectors(products): void {
+	private setVASelectors(products): void {
+		const prevVASelectors = JSON.parse(JSON.stringify(this.variantAttributeSelectors));
+		this.variantAttributeSelectors.length = 0;
 		products.forEach(product => {
 			if (product.variantAttributes) {
 				product.variantAttributes.forEach(variantAttribute => {
 					// wrap variant attribute into swatch(including determine whether it's in stock and selected)
 					const wrappedSwatch = this.wrappedAttributeIntoSwatch(variantAttribute,
-						this.isVariantAvailable([variantAttribute]), false);
-					// this.isSelected(this.getDefaultAttributeList(), variantAttribute)
+						this.isVariantAvailable([variantAttribute]), this.isSelected(prevVASelectors, variantAttribute));
 
 					const existedAttribute = this.variantAttributeSelectors.find(attributeInList => attributeInList.key === variantAttribute.key);
 
@@ -169,6 +164,10 @@ export class VariantSelectorComponent implements OnInit {
 	private isVariantAvailable(variantAttributes: Array<VariantAttribute>): boolean {
 		const productId = this.getAvailableProductId(variantAttributes);
 		return !!productId;
+	}
+
+	private isSelected(attributes: Array<VariantAttributeSelector>, item: VariantAttribute): boolean {
+		return attributes.some(attribute => attribute.key === item.key && attribute.swatches[0].label === item.value);
 	}
 
 	private getAvailableProductId(variantAttributes: Array<VariantAttribute>): string {

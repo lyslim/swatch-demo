@@ -40,6 +40,7 @@ export const product002 = {
 			key: 'color',
 			value: 'kahki',
 			swatch: {
+				url: `https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533093184&di=4dc747c6cf946ed581bf7e066a754232&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.shejiben.com%2Fcaizhi%2Fday_151020%2F20151021_965e5added6455db654dAoB7AjNfj5SM.jpg`,
 				codes: [
 					'#F0E68C'
 				],
@@ -65,7 +66,7 @@ export const product003 = {
 			key: 'color',
 			value: 'denim',
 			swatch: {
-				url: 'http://www.oursupermom.com/wp-content/uploads/2011/11/blue-denim-fabric-closeup-texture.jpg',
+				url: 'http://www.jituwang.com/uploads/allimg/150924/258217-150924150R462.jpg',
 				codes: [
 					'#4286f4'
 				],
@@ -91,6 +92,7 @@ export const product004 = {
 			key: 'color',
 			value: 'kahki',
 			swatch: {
+				url: `https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533093184&di=4dc747c6cf946ed581bf7e066a754232&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.shejiben.com%2Fcaizhi%2Fday_151020%2F20151021_965e5added6455db654dAoB7AjNfj5SM.jpg`,
 				codes: [
 					'#F0E68C'
 				],
@@ -114,7 +116,14 @@ export const product005 = {
 	variantAttributes: [
 		{
 			key: 'color',
-			value: 'white'
+			value: 'white',
+			swatch: {
+				url: 'https://www.colorcombos.com/images/colors/FFFFFF.png',
+				codes: [
+					'#ffffff'
+				],
+				label: 'white',
+			}
 		},
 		{
 			key: 'waist',

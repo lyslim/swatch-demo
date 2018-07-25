@@ -10,3 +10,16 @@
 	margin-bottom: 5px;
 	margin-left: 5px;
 }
+
+.console {
+	margin-left: 15px;
+}
+
+.error {
+	margin-left: 10px;
+	color: red;
+}
+
+.inactive {
+	pointer-events: none;
+}
